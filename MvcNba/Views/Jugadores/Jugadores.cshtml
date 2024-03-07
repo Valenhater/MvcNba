@@ -1,0 +1,140 @@
+﻿@model JugadoresViewModel
+
+<style>
+    .search-form {
+        margin-bottom: 20px;
+        text-align: center;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+        .search-form label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .search-form input[type="text"],
+        .search-form select {
+            padding: 7px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            margin-right: 10px;
+            outline: none;
+            width: 150px;
+        }
+
+        .search-form button {
+            padding: 7px 15px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            outline: none;
+        }
+
+            .search-form button:hover {
+                background-color: #555;
+            }
+
+    /* Estilos para la tabla de jugadores */
+    .player-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+        .player-table th,
+        .player-table td {
+            border: 1px solid #ddd;
+            padding: 15px;
+        }
+
+        .player-table th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .player-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .player-table tr:hover {
+            background-color: #f2f2f2;
+        }
+
+    .player-image {
+        display: block;
+        margin: 0 auto;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .details-button {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .details-button:hover {
+            background-color: #45a049;
+        }
+</style>
+
+<div class="search-form">
+    <form method="get" asp-action="Jugadores">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre" placeholder="Nombre" />
+        <button type="submit">Buscar</button>
+    </form>
+
+    <form method="get" asp-action="Jugadores">
+        <label for="posicion">Posición:</label>
+        <input type="text" name="posicion" id="posicion" placeholder="posición" />
+        <button type="submit">Buscar</button>
+    </form>
+
+    <form method="get" asp-action="Jugadores">
+        <label for="equipo">Equipo:</label>
+        <select name="equipo" id="equipo">
+            <option value="">Equipo</option>
+            @foreach (var equipo in Model.Equipos)
+            {
+                <option value="@equipo.Nombre">@equipo.Nombre</option>
+            }
+        </select>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<table class="player-table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Posición</th>
+            <th>Imagen</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var jugador in Model.Jugadores)
+        {
+            <tr>
+                <td>@jugador.Nombre</td>
+                <td>@jugador.Posicion</td>
+                <td><img src="@HelperPathProvider.MapUrlPath(jugador.Imagen, Folders.Jugadores)" class="player-image" /></td>
+                <td><a asp-controller="Jugadores" asp-action="DetalleJugador" asp-route-id="@jugador.IdJugador" class="details-button">Ver detalles</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

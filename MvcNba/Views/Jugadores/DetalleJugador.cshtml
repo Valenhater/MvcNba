@@ -1,0 +1,72 @@
+﻿@model MvcNba.Models.Jugador
+
+<style>
+    /* Estilos para la ficha de jugador */
+    .player-card {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 2px solid black; /* Cambiado el color del borde a negro */
+        border-radius: 10px;
+        background-color: #f2f2f2;
+        text-align: center;
+    }
+
+        .player-card h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: black; /* Cambiado el color del título a negro */
+        }
+
+        .player-card h4 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .player-card p {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: black; /* Cambiado el color del texto a negro */
+        }
+
+        .player-card img {
+            display: block;
+            margin: 0 auto;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid black; /* Cambiado el color del borde a negro */
+            margin-bottom: 20px;
+        }
+
+    .return-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+        .return-button:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<div class="player-card">
+    <h1>Detalles del Jugador</h1>
+    <img src="@HelperPathProvider.MapUrlPath(Model.Imagen, Folders.Jugadores)" alt="@Model.Nombre" />
+    <h4>Nombre: @Model.Nombre</h4>
+    <p>Posición: @Model.Posicion</p>
+    <p>Puntos por Partido: @Model.PuntosPorPartido</p>
+    <p>Rebotes por Partido: @Model.RebotesPorPartido</p>
+    <p>Asistencias por Partido: @Model.AsistenciasPorPartido</p>
+    <a asp-controller="Jugadores" asp-action="Jugadores" class="return-button">Volver a jugadores</a>
+</div>

@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Registro";
+}
+
+<style>
+    /* Estilos para el formulario de registro */
+    .registration-form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 30px;
+        border: 2px solid #4CAF50; /* Color del borde verde */
+        border-radius: 10px;
+        background-color: #f2f2f2; /* Color de fondo gris claro */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    }
+
+        .registration-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4CAF50; /* Color del título verde */
+            font-size: 28px;
+        }
+
+        .registration-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .registration-form .control-label {
+            font-weight: bold;
+            color: #4CAF50; /* Color del texto verde */
+        }
+
+        .registration-form .form-control {
+            border-radius: 5px;
+            border: 2px solid #4CAF50; /* Color del borde verde */
+            padding: 10px;
+            transition: border-color 0.3s;
+        }
+
+            .registration-form .form-control:focus {
+                border-color: #388E3C; /* Color del borde verde más oscuro al hacer focus */
+            }
+
+        .registration-form .btn-primary {
+            width: 100%;
+            padding: 12px;
+            font-weight: bold;
+            background-color: #4CAF50; /* Color del botón verde */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .registration-form .btn-primary:hover {
+                background-color: #388E3C; /* Color del botón verde más oscuro al hacer hover */
+            }
+
+        .registration-form .alert-danger {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f44336; /* Color de fondo de la alerta rojo */
+            color: white; /* Color del texto de la alerta blanco */
+            border-radius: 5px;
+            font-weight: bold;
+        }
+</style>
+
+<div class="registration-form">
+    <h2>Registro</h2>
+    <form asp-action="Registro" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label name="nombre" class="control-label">Nombre</label>
+            <input name="nombre" class="form-control" placeholder="Introduce tu nombre" />
+        </div>
+        <div class="form-group">
+            <label name="email" class="control-label">Email</label>
+            <input name="email" class="form-control" type="email" placeholder="Introduce tu email" />
+        </div>
+        <div class="form-group">
+            <label name="password" class="control-label">Contraseña</label>
+            <input name="password" class="form-control" type="password" placeholder="Introduce tu contraseña" />
+        </div>
+        <div class="form-group">
+            <label name="confirmPassword" class="control-label">Confirmar Contraseña</label>
+            <input name="confirmPassword" class="form-control" type="password" placeholder="Confirma tu contraseña" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Registrar" class="btn btn-primary" />
+        </div>
+        @if (ViewData["Mensaje"] != null)
+        {
+            <div class="alert alert-danger">
+                @ViewData["Mensaje"]
+            </div>
+        }
+    </form>
+</div>

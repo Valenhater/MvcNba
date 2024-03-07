@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    /* Estilos para el formulario de login */
+    .login-form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 30px;
+        border: 2px solid #4CAF50; /* Color del borde verde */
+        border-radius: 10px;
+        background-color: #f2f2f2; /* Color de fondo gris claro */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4CAF50; /* Color del título verde */
+            font-size: 28px;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .login-form .control-label {
+            font-weight: bold;
+            color: #4CAF50; /* Color del texto verde */
+        }
+
+        .login-form .form-control {
+            border-radius: 5px;
+            border: 2px solid #4CAF50; /* Color del borde verde */
+            padding: 10px;
+            transition: border-color 0.3s;
+        }
+
+            .login-form .form-control:focus {
+                border-color: #45a049; /* Color del borde verde más oscuro al hacer focus */
+            }
+
+        .login-form .btn-primary {
+            width: 100%;
+            padding: 12px;
+            font-weight: bold;
+            background-color: #4CAF50; /* Color del botón verde */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .login-form .btn-primary:hover {
+                background-color: #45a049; /* Color del botón verde más oscuro al hacer hover */
+            }
+
+        .login-form .alert-danger {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f44336; /* Color de fondo de la alerta rojo */
+            color: white; /* Color del texto de la alerta blanco */
+            border-radius: 5px;
+            font-weight: bold;
+        }
+</style>
+
+<div class="login-form">
+    <h2>Login</h2>
+    <form asp-action="Login" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label name="username" class="control-label">Nombre de usuario</label>
+            <input name="username" class="form-control" placeholder="Introduce tu nombre de usuario" />
+        </div>
+        <div class="form-group">
+            <label name="password" class="control-label">Contraseña</label>
+            <input name="password" class="form-control" type="password" placeholder="Introduce tu contraseña" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Iniciar Sesión" class="btn btn-primary" />
+        </div>
+        @if (ViewData["Mensaje"] != null)
+        {
+            <div class="alert alert-danger">
+                @ViewData["Mensaje"]
+            </div>
+        }
+    </form>
+</div>

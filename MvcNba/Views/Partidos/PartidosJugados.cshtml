@@ -1,0 +1,116 @@
+﻿@model List<Partido>
+
+<style>
+    .titulo {
+        font-size: 48px;
+        font-weight: bold;
+        color: #333;
+        background-color: #f0f0f0;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .marcador-container {
+        margin-bottom: 20px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .marcador-header {
+        background-color: #333;
+        color: #fff;
+        padding: 15px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 24px;
+    }
+
+    .marcador-body {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .equipo {
+        text-align: center;
+        flex: 1;
+    }
+
+    .equipo-nombre {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .puntos {
+        font-size: 32px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .vs {
+        font-size: 28px;
+        font-weight: bold;
+        color: #333;
+        margin-top: 10px;
+    }
+
+    .ganador {
+        color: #4caf50;
+    }
+
+    .perdedor {
+        color: #f44336;
+    }
+
+    /* Animación de resaltado */
+    .marcador-container:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .banner-image {
+        width: 100%;
+        height: 400px; /* Ajusta la altura del banner según sea necesario */
+        object-fit: cover;
+    }
+</style>
+
+<img class="banner-image" src="https://i.redd.it/the-current-banner-of-the-nba-twitter-page-v0-twee9z5szrma1.jpg?width=1080&format=pjpg&auto=webp&s=fadc8fc72d49abeeb29dd190a5e3527bd784bda1" />
+
+<h1 class="titulo">Ultima Jornadas</h1>
+
+@foreach (var partido in Model)
+{
+    <div class="marcador-container">
+        <div class="marcador-header">@partido.Fecha.ToShortDateString()</div>
+        <div class="marcador-body">
+            <div class="equipo">
+                <span class="equipo-nombre">@partido.EquipoLocal.Nombre</span>
+                <span class="puntos @if(partido.PuntosLocal > partido.PuntosVisitante) {
+            <text>ganador</text>
+ } else if (partido.PuntosLocal < partido.PuntosVisitante) {
+            <text>perdedor</text>
+ }">@partido.PuntosLocal</span>
+            </div>
+            <div>
+                <span class="vs">VS</span>
+            </div>
+            <div class="equipo">
+                <span class="equipo-nombre">@partido.EquipoVisitante.Nombre</span>
+                <span class="puntos @if(partido.PuntosVisitante > partido.PuntosLocal) {
+            <text>ganador</text>
+ } else if (partido.PuntosVisitante < partido.PuntosLocal) {
+            <text>perdedor</text>
+ }">@partido.PuntosVisitante</span>
+            </div>
+        </div>
+    </div>
+}

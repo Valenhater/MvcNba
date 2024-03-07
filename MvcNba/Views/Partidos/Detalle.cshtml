@@ -1,0 +1,86 @@
+﻿@model MvcNba.Models.Equipo
+
+@{
+    ViewData["Title"] = "Detalle";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MvcNba</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        .detalle-container {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center; /* Centrar contenido */
+        }
+
+        .detalle-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .detalle-info {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 10px;
+            text-align: left; /* Alinear información a la izquierda */
+        }
+
+        .detalle-image {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 10px;
+            margin: 20px auto; /* Centrar imagen */
+            display: block; /* Hacer que la imagen sea un bloque para poder centrarla */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-link {
+            font-size: 18px;
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+            .edit-link:hover {
+                color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="detalle-container">
+                    <h1 class="detalle-title">Detalle del Equipo</h1>
+                    <div class="detalle-info">
+                        <strong>Nombre:</strong> @Model.Nombre
+                    </div>
+                    <div class="detalle-info">
+                        <strong>Ciudad:</strong> @Model.Ciudad
+                    </div>
+                    <div class="detalle-info">
+                        <strong>Fundación:</strong> @Model.Fundacion
+                    </div>
+                    <img class="detalle-image" src="@HelperPathProvider.MapUrlPath(Model.Imagen, Folders.Equipos)" alt="@Model.Nombre" />
+                    <div>
+                        <a asp-action="Index" class="btn btn-info">Volver al Listado</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
