@@ -1,0 +1,30 @@
+﻿.navbar-brand img {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.navbar-nav .nav-link {
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+    .navbar-nav .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+.navbar-nav .dropdown-menu {
+    background-color: #212529;
+    border: none;
+}
+
+    .navbar-nav .dropdown-menu .dropdown-item {
+        color: white;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+        .navbar-nav .dropdown-menu .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }

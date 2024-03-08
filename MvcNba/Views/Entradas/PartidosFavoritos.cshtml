@@ -1,0 +1,47 @@
+﻿@model List<MvcNba.Models.ModelVistaProximosPartidos>
+
+@{
+    ViewData["Title"] = "Partidos en Carrito";
+}
+
+<h1>Partidos En Carrito V1</h1>
+
+<p>
+    <a asp-controller="Entradas" asp-action="VistaReservaEntradas" class="btn btn-info">
+        Lista de partidos
+    </a>
+</p>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Equipo Local</th>
+                <th>Equipo visitante</th>
+                <th>Fecha del partido</th>
+                <th>Precio del partido</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var partido in Model)
+            {
+                <tr>
+                    <td>@partido.EquipoLocal</td>
+                    <td>@partido.EquipoVisitante</td>
+                    <td>@partido.Fecha.ToShortDateString()</td>
+                    <td>@partido.PrecioEntrada €</td>
+                    <td>
+                        <a asp-controller="Entradas" asp-action="PartidosFavoritos" asp-route-ideliminar="@partido.IdPartido" class="btn btn-danger">Eliminar</a>
+                        <a href="" class="btn btn-success">Comprar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2>@ViewData["MENSAJE"]</h2>
+}

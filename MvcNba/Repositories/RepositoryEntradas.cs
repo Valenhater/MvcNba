@@ -12,9 +12,26 @@ namespace MvcNba.Repositories
         {
             this.context = context;
         }
-        public List<ModelVistaProximosPartidos> GetProximosPartidos()
+        public async Task<List<ModelVistaProximosPartidos>> GetProximosPartidosAsync()
         {
-            return this.context.VistaProximosPartidos.ToList();
+            return  this.context.VistaProximosPartidos.ToList();
+        }
+        public async Task<ModelVistaProximosPartidos> FindPartidoAsync(int idPartido)
+        {
+            return await this.context.VistaProximosPartidos.FirstOrDefaultAsync(z => z.IdPartido == idPartido);
+        }
+
+        public async Task<List<ModelVistaProximosPartidos>> GetFavoritosAsync(List<int> ids)
+        {
+            var consulta = from datos in this.context.VistaProximosPartidos where ids.Contains(datos.IdPartido) select datos;
+            if(consulta.Count() == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return await consulta.ToListAsync();
+            }
         }
     }
 }

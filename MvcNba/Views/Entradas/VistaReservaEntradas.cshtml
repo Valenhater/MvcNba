@@ -1,10 +1,33 @@
 ﻿@model List<MvcNba.Models.ModelVistaProximosPartidos>
+@using Newtonsoft.Json
 
 @{
     ViewData["Title"] = "Reservar Entradas";
 }
 
+
+
 <style>
+
+    .login-message {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+        .login-message a {
+            color: #721c24;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+    /* Centrar verticalmente */
+    .vertical-center {
+        display: flex;
+        align-items: center;
+    }
     .container {
         margin-top: 50px;
     }
@@ -29,7 +52,7 @@
     }
 
     .btn-reservar {
-        background-color: #007bff;
+        background-color: forestgreen;
         color: white;
         border: none;
         border-radius: 20px;
@@ -39,9 +62,24 @@
         transition: background-color 0.3s;
     }
 
-        .btn-reservar:hover {
-            background-color: #0056b3;
-        }
+    .btn-reservar2 {
+        background-color: rebeccapurple;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-reservar:hover {
+        background-color: lightgreen;
+    }
+
+    .btn-reservar2:hover {
+        background-color: mediumpurple;
+    }
 </style>
 <div class="container">
     <h1 class="text-center">Próximos Partidos</h1>
@@ -50,14 +88,30 @@
         {
             <div class="col-md-4">
                 <div class="card">
-                    <img class="card-img-top" src="@HelperPathProvider.MapUrlPath(partido.ImagenPartido, Folders.Partidos)" alt="Imagen del Partido" />
+                    <img class="card-img-top" src="@HelperPathProvider.MapUrlPath(@partido.ImagenPartido, Folders.Partidos)" alt="Imagen del Partido" />
                     <div class="card-body">
                         <h5 class="card-title">@partido.EquipoLocal vs @partido.EquipoVisitante</h5>
                         <p class="card-text">@partido.Fecha.ToShortDateString() - @partido.Fecha.ToShortTimeString()</p>
                         <p class="card-text">Precio de la Entrada: $@partido.PrecioEntrada</p>
                         <p class="card-text">Plazas Disponibles: @partido.PlazasDisponibles</p>
-                        <a href="@Url.Action("Reservar", "Entradas", new { id = partido.IdPartido })" class="btn btn-reservar">Reservar Entrada</a>
-                        <a href="@Url.Action("Reservar", "Entradas", new { id = partido.IdPartido })" class="btn btn-reservar">Guardar en Carrito</a>
+                        @if (Context.Session.GetObject<Usuario>("CurrentUser") != null)
+                        {
+                            <a asp-controller="Entradas" asp-action="Reservar" asp-route-id="@partido.IdPartido" class="btn btn-reservar">Reservar Entrada</a>
+                            @if (Model.Any(p => Context.Session.GetObject<List<int>>("PARTIDOS")?.Contains(partido.IdPartido) ?? false))
+                            {
+                                <img src="~/varios/guardado.png" style="width: 35px; height: 35px;" />
+                            }
+                            else
+                            {
+                                <a asp-controller="Entradas" asp-action="VistaReservaEntradas" asp-route-idPartido="@partido.IdPartido" class="btn btn-reservar2">Guardar en Carrito</a>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-center mt-3 login-message vertical-center">
+                                <span>Debes <a asp-controller="Usuarios" asp-action="Login">iniciar sesión</a> para reservar o agregar al carrito.</span>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

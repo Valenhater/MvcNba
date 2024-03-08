@@ -3,19 +3,19 @@ using MvcNba.Extensions;
 using MvcNba.Helpers;
 using MvcNba.Models;
 using MvcNba.Repositories;
-
+using System.Threading.Tasks;
 
 namespace MvcNba.Controllers
 {
     public class UsuariosController : Controller
     {
-        private RepositoryUsuarios repo;
-        private HelperCryptography helper;
+        private readonly RepositoryUsuarios repo;
 
         public UsuariosController(RepositoryUsuarios repo)
         {
             this.repo = repo;
         }
+
         public IActionResult Login()
         {
             return View();
@@ -37,10 +37,12 @@ namespace MvcNba.Controllers
                 return View();
             }
         }
+
         public IActionResult Registro()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Registro(string nombre, string password, string confirmPassword, string email)
         {
@@ -59,7 +61,7 @@ namespace MvcNba.Controllers
                 ViewData["Mensaje"] = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
                 return View();
             }
-            // Llamar al método RegisterUserAsync con la contraseña tal como está
+
             await repo.RegisterUserAsync(nombre, password, email);
 
             Usuario user = repo.GetUser(nombre);
@@ -67,6 +69,7 @@ namespace MvcNba.Controllers
 
             return RedirectToAction("PartidosJugados", "Partidos");
         }
+
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("CurrentUser");

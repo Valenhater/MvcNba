@@ -64,6 +64,17 @@
             border-radius: 5px;
             font-weight: bold;
         }
+
+    /* Estilos para el enlace al registro */
+    .register-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .register-link a {
+            color: #4CAF50; /* Color del enlace verde */
+            font-weight: bold;
+        }
 </style>
 
 <div class="login-form">
@@ -88,4 +99,7 @@
             </div>
         }
     </form>
+    <div class="register-link">
+        <span>¿No tienes cuenta? Regístrate <a asp-controller="Usuarios" asp-action="Registro">aquí</a>.</span>
+    </div>
 </div>
