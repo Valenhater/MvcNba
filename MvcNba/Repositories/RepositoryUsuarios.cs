@@ -4,16 +4,25 @@ using Microsoft.EntityFrameworkCore;
 using MvcNba.Helpers;
 using MvcNba.Models;
 using MvcNba.Data;
+using Microsoft.IdentityModel.Tokens;
+using System.Data;
+using Microsoft.Data.SqlClient;
 
 namespace MvcNba.Repositories
 {
     public class RepositoryUsuarios
     {
         private NbaContext context;
+        private SqlConnection cn;
+        private SqlCommand com;
 
         public RepositoryUsuarios(NbaContext context)
         {
             this.context = context;
+            string connectionString = "Data Source=LOCALHOST\\SQLEXPRESS;Initial Catalog=NBA;Persist Security Info=True;User ID=sa;Password=MCSD2023;Trust Server Certificate=True";
+            this.cn = new SqlConnection(connectionString);
+            this.com = new SqlCommand();
+            this.com.Connection = cn;
         }
 
         public async Task<bool> LogInUserAsync(string nombre, string password)
@@ -81,8 +90,6 @@ namespace MvcNba.Repositories
             user.IdUsuario = await this.GetMaxIdUsuarioAsync();
             user.Nombre = nombre;
             user.Email = email;
-            user.Comentario = "";
-            user.FotoPerfil = "";
             user.Rol = 2;
             //CADA USUARIO TENDRA UN SALT DISTINTO
             user.Salt = HelperTools.GenerateSalt();
@@ -92,6 +99,29 @@ namespace MvcNba.Repositories
             this.context.Usuarios.Add(user);
             await this.context.SaveChangesAsync();
             return user;
+        }
+
+        public void UpdateUserAsync( int id,string nombre, string email)
+        {
+
+            var sql = "UPDATE Usuarios SET email = @email, nombre = @nombre WHERE idusuario =@id;";
+
+            this.com.Parameters.AddWithValue("@id", id);
+            this.com.Parameters.AddWithValue("@email", email);
+            this.com.Parameters.AddWithValue("@nombre", nombre);
+
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+
+            this.cn.Open();
+            int af = this.com.ExecuteNonQuery();
+
+            this.cn.Close();
+            this.com.Parameters.Clear();
+        }
+        public async Task<Usuario> GetUserByIdAsync(int id)
+        {
+            return await context.Usuarios.FindAsync(id);
         }
     }
 }

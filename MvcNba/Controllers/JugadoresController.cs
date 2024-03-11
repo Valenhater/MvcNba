@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MvcNba.Models;
 using MvcNba.Repositories;
 
@@ -16,28 +17,34 @@ namespace MvcNba.Controllers
             this.repoEq = repoEq;
         }
 
-        public async Task<IActionResult> Jugadores(string nombre, string posicion, string equipo)
+        public async Task<IActionResult> Jugadores(int pagina = 1, string nombre = null, string posicion = null, string equipo = null)
         {
+            const int tamanoPagina = 5;
+            int indiceInicio = (pagina - 1) * tamanoPagina + 1;
+
             List<Jugador> jugadores;
 
             if (!string.IsNullOrEmpty(nombre))
             {
-                jugadores = await repo.GetJugadoresByNombreAsync(nombre);
+                jugadores = await this.repo.GetJugadoresByNombreAsync(nombre);
             }
             else if (!string.IsNullOrEmpty(posicion))
             {
-                jugadores = await repo.GetJugadoresByPosicionAsync(posicion);
+                jugadores = await this.repo.GetJugadoresByPosicionAsync(posicion);
             }
             else if (!string.IsNullOrEmpty(equipo))
             {
-                jugadores = await repo.GetJugadoresByEquipoAsync(equipo);
+                jugadores = await this.repo.GetJugadoresByEquipoAsync(equipo);
             }
             else
             {
-                jugadores = await repo.GetAllJugadoresAsync();
+                jugadores = await this.repo.GetGrupoJugadoresAsync(indiceInicio, tamanoPagina);
             }
 
-            var equipos = await repoEq.GetAllEquiposAsync();
+            var equipos = await this.repoEq.GetAllEquiposAsync();
+
+            var totalJugadores = await this.repo.GetNumeroTotalJugadoresAsync(); // Obtener el total de jugadores
+            ViewBag.TotalPaginas = (int)Math.Ceiling((double)totalJugadores / tamanoPagina); // Calcular el número total de páginas
 
             var viewModel = new JugadoresViewModel
             {
@@ -45,9 +52,10 @@ namespace MvcNba.Controllers
                 Equipos = equipos
             };
 
+            ViewBag.Pagina = pagina;
+
             return View(viewModel);
         }
-
 
         public async Task<IActionResult> DetalleJugador(int id)
         {

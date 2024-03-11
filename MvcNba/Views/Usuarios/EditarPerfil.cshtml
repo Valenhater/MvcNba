@@ -1,0 +1,19 @@
+﻿@model Usuario
+
+<form method="post">
+    <input type="hidden" name="id" value="@Model.IdUsuario" />
+    <input type="hidden" name="rol" value="@Model.Rol" />
+    <input type="hidden" name="passwd" value="@Model.Password" />
+
+    <div class="form-group">
+        <label for="Nombre" class="control-label">Nombre</label>
+        <input type="text" name="nombre" value="@Model.Nombre" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="Email" class="control-label">Email</label>
+        <input type="email" name="email" value="@Model.Email" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+</form>

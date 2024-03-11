@@ -3,6 +3,7 @@ using MvcNba.Extensions;
 using MvcNba.Helpers;
 using MvcNba.Models;
 using MvcNba.Repositories;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MvcNba.Controllers
@@ -74,6 +75,33 @@ namespace MvcNba.Controllers
         {
             HttpContext.Session.Remove("CurrentUser");
             return RedirectToAction("Login");
+        }
+        public IActionResult EditarPerfil()
+        {
+            var currentUser = HttpContext.Session.GetObject<Usuario>("CurrentUser");
+            if (currentUser == null)
+            {
+                // Manejar la situación en la que no hay un usuario actual en la sesión
+                return RedirectToAction("Login");
+            }
+
+            return View(currentUser); // Pasar el usuario actual como modelo a la vista
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditarPerfil(int id, string nombre, string email)
+        {
+            this.repo.UpdateUserAsync(id, nombre, email);
+
+            // Actualizar la sesión con los nuevos datos del usuario
+            var updatedUser = await this.repo.GetUserByIdAsync(id);
+
+            if (updatedUser != null)
+            {
+                HttpContext.Session.SetObject("CurrentUser", updatedUser);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

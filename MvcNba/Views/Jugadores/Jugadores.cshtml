@@ -89,52 +89,111 @@
         .details-button:hover {
             background-color: #45a049;
         }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+        .pagination li {
+            list-style: none;
+            margin: 0 5px;
+        }
+
+            .pagination li.active a {
+                background-color: #333;
+                color: #fff;
+            }
+
+            .pagination li a {
+                padding: 10px;
+                text-decoration: none;
+                color: #333;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+
+                .pagination li a:hover {
+                    background-color: #555;
+                    color: #fff;
+                }
 </style>
 
-<div class="search-form">
-    <form method="get" asp-action="Jugadores">
-        <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" id="nombre" placeholder="Nombre" />
-        <button type="submit">Buscar</button>
-    </form>
+<div class="container">
+    <div class="search-form">
+        <form method="get" asp-action="Jugadores">
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" placeholder="Nombre" />
+            <button type="submit">Buscar</button>
+        </form>
 
-    <form method="get" asp-action="Jugadores">
-        <label for="posicion">Posición:</label>
-        <input type="text" name="posicion" id="posicion" placeholder="posición" />
-        <button type="submit">Buscar</button>
-    </form>
+        <form method="get" asp-action="Jugadores">
+            <label for="posicion">Posición:</label>
+            <input type="text" name="posicion" id="posicion" placeholder="posición" />
+            <button type="submit">Buscar</button>
+        </form>
 
-    <form method="get" asp-action="Jugadores">
-        <label for="equipo">Equipo:</label>
-        <select name="equipo" id="equipo">
-            <option value="">Equipo</option>
-            @foreach (var equipo in Model.Equipos)
-            {
-                <option value="@equipo.Nombre">@equipo.Nombre</option>
-            }
-        </select>
-        <button type="submit">Buscar</button>
-    </form>
-</div>
+        <form method="get" asp-action="Jugadores">
+            <label for="equipo">Equipo:</label>
+            <select name="equipo" id="equipo">
+                <option value="">Equipo</option>
+                @foreach (var equipo in Model.Equipos)
+                {
+                    <option value="@equipo.Nombre">@equipo.Nombre</option>
+                }
+            </select>
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
 
-<table class="player-table">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Posición</th>
-            <th>Imagen</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var jugador in Model.Jugadores)
-        {
+    <table class="player-table">
+        <thead>
             <tr>
-                <td>@jugador.Nombre</td>
-                <td>@jugador.Posicion</td>
-                <td><img src="@HelperPathProvider.MapUrlPath(jugador.Imagen, Folders.Jugadores)" class="player-image" /></td>
-                <td><a asp-controller="Jugadores" asp-action="DetalleJugador" asp-route-id="@jugador.IdJugador" class="details-button">Ver detalles</a></td>
+                <th>Nombre</th>
+                <th>Posición</th>
+                <th>Imagen</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var jugador in Model.Jugadores)
+            {
+                <tr>
+                    <td>@jugador.Nombre</td>
+                    <td>@jugador.Posicion</td>
+                    <td><img src="@HelperPathProvider.MapUrlPath(jugador.Imagen, Folders.Jugadores)" class="player-image" /></td>
+                    <td><a asp-controller="Jugadores" asp-action="DetalleJugador" asp-route-id="@jugador.IdJugador" class="details-button">Ver detalles</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            @if (ViewBag.TotalPaginas > 1)
+            {
+                <li class="page-item @(ViewBag.Pagina == 1 ? "disabled" : "")">
+                    <a class="page-link" href="/Jugadores/Jugadores?pagina=@(ViewBag.Pagina - 1)" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+
+                @for (var i = 1; i <= ViewBag.TotalPaginas; i++)
+                {
+                    <li class="page-item @(i == ViewBag.Pagina ? "active" : "")">
+                        <a class="page-link" href="/Jugadores/Jugadores?pagina=@i">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @(ViewBag.Pagina == ViewBag.TotalPaginas ? "disabled" : "")">
+                    <a class="page-link" href="/Jugadores/Jugadores?pagina=@(ViewBag.Pagina + 1)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

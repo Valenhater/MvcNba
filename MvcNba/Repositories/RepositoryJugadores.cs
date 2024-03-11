@@ -23,6 +23,18 @@ namespace MvcNba.Repositories
     //FROM PROXIMOSPARTIDOS PP
     //JOIN EQUIPOS EL ON PP.EquipoLocalId = EL.EquipoId
     //JOIN EQUIPOS EV ON PP.EquipoVisitanteId = EV.EquipoId;
+
+    //    CREATE PROCEDURE SP_OBTENER_GRUPO_JUGADORES
+    //    @IndiceInicio INT,
+    //    @TamanoPagina INT
+    //AS
+    //BEGIN
+    //    SELECT* FROM(
+    //        SELECT ROW_NUMBER() OVER (ORDER BY JUGADORID) AS RowNum, *
+    //        FROM JUGADORES
+    //    ) AS PaginatedPlayers
+    //    WHERE RowNum BETWEEN @IndiceInicio AND @IndiceInicio + @TamanoPagina - 1;
+    //END
     #endregion
     public class RepositoryJugadores
     {
@@ -65,6 +77,16 @@ namespace MvcNba.Repositories
         public async Task<Jugador> ObtenerJugadorPorId(int id)
         {
             return await this.context.Jugadores.FindAsync(id);
+        }
+        public async Task<List<Jugador>> GetGrupoJugadoresAsync(int indiceInicio, int tamanoPagina)
+        {
+            return await this.context.Jugadores
+                .FromSqlRaw("EXEC SP_OBTENER_GRUPO_JUGADORES {0}, {1}", indiceInicio, tamanoPagina)
+                .ToListAsync();
+        }
+        public async Task<int> GetNumeroTotalJugadoresAsync()
+        {
+            return await this.context.Jugadores.CountAsync();
         }
 
     }
