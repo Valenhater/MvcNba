@@ -9,12 +9,16 @@ namespace MvcNba.Models
         [Key]
         [Column("RESERVAID")]
         public int ReservaId { get; set; }
+        [Column("USUARIOID")]
+        public int UsuarioId { get; set; }
         [Column("PARTIDOID")]
         public int PartidoId { get; set; }
-        [Column("CANTIDADID")]
-        public int CantidadId { get; set; }
-        [Column("PRECIOTOTAL")]
-        public decimal PrecioTotal { get; set; }
-       
+        [Column("ASIENTO ")]
+        public int Asiento { get; set; }
+        [ForeignKey("UsuarioId")]
+        public Usuario Usuario { get; set; }
+        [ForeignKey("PartidoId")]
+        public ProximoPartido Partido { get; set; }
     }
 }
+

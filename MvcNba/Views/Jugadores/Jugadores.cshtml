@@ -1,81 +1,103 @@
-﻿@model JugadoresViewModel
+﻿@using Microsoft.AspNetCore.Http
+@model JugadoresViewModel
 
 <style>
+
+
     .search-form {
         margin-bottom: 20px;
         text-align: center;
         display: flex;
         justify-content: space-around;
         align-items: center;
+        background-color: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente */
+        padding: 10px; /* Espaciado interno */
+        border-radius: 10px; /* Bordes redondeados */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
     }
 
         .search-form label {
             font-weight: bold;
             margin-right: 10px;
+            color: #333; /* Cambio de color del texto de las etiquetas a negro para mejorar la legibilidad */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra al texto de las etiquetas */
         }
 
         .search-form input[type="text"],
         .search-form select {
             padding: 7px;
-            border: 2px solid #333;
+            border: 2px solid #fff; /* Cambio de color del borde a blanco */
             border-radius: 5px;
             margin-right: 10px;
             outline: none;
             width: 150px;
+            background-color: #f9f9f9; /* Fondo blanco */
+            color: #333; /* Color del texto de los campos de entrada */
         }
+
+            /* Agregamos un borde a los campos de entrada */
+            .search-form input[type="text"]:focus,
+            .search-form select:focus {
+                border-color: #ccc;
+            }
 
         .search-form button {
             padding: 7px 15px;
-            background-color: #333;
+            background-color: #4caf50;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
             outline: none;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra al texto del botón */
         }
 
             .search-form button:hover {
-                background-color: #555;
+                background-color: #45a049;
             }
 
     /* Estilos para la tabla de jugadores */
     .player-table {
         width: 100%;
-        border-collapse: collapse;
         text-align: center;
+        margin-bottom: 20px;
+        border-collapse: separate; /* Espaciado entre celdas */
+        border-spacing: 0 10px; /* Espacio vertical entre filas */
     }
 
         .player-table th,
         .player-table td {
-            border: 1px solid #ddd;
             padding: 15px;
+            background-color: #fff; /* Fondo blanco */
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+            transition: background-color 0.3s, transform 0.3s; /* Transiciones suaves */
         }
 
         .player-table th {
-            background-color: #f2f2f2;
-            color: #333;
+            background-color: #333;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: none; /* Sin sombra en la cabecera */
         }
 
-        .player-table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        .player-table tr:hover {
-            background-color: #f2f2f2;
+        .player-table td:hover {
+            background-color: #f2f2f2; /* Cambio de color al pasar el ratón */
+            transform: translateY(-5px); /* Efecto de elevación */
         }
 
     .player-image {
         display: block;
         margin: 0 auto;
-        width: 150px;
-        height: 150px;
+        width: 100px;
+        height: 100px;
         object-fit: cover;
         border-radius: 50%;
     }
 
     .details-button {
-        padding: 10px 20px;
+        padding: 5px 10px;
         background-color: #4caf50;
         color: white;
         border: none;
@@ -83,7 +105,7 @@
         cursor: pointer;
         transition: background-color 0.3s;
         text-decoration: none;
-        display: inline-block;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra al texto del botón */
     }
 
         .details-button:hover {
@@ -130,7 +152,7 @@
 
         <form method="get" asp-action="Jugadores">
             <label for="posicion">Posición:</label>
-            <input type="text" name="posicion" id="posicion" placeholder="posición" />
+            <input type="text" name="posicion" id="posicion" placeholder="Posición" />
             <button type="submit">Buscar</button>
         </form>
 
@@ -192,6 +214,16 @@
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>
+                </li>
+            }
+            else
+            {
+                <!-- Si hay menos de una página de resultados, mostrar solo un botón de "Next" deshabilitado -->
+                <li class="page-item disabled">
+                    <span class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </span>
                 </li>
             }
         </ul>

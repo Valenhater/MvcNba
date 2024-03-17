@@ -21,41 +21,49 @@ namespace MvcNba.Controllers
         {
             const int tamanoPagina = 5;
             int indiceInicio = (pagina - 1) * tamanoPagina + 1;
-
             List<Jugador> jugadores;
+            int totalJugadores;
 
             if (!string.IsNullOrEmpty(nombre))
             {
                 jugadores = await this.repo.GetJugadoresByNombreAsync(nombre);
+                totalJugadores = jugadores.Count;
             }
             else if (!string.IsNullOrEmpty(posicion))
             {
                 jugadores = await this.repo.GetJugadoresByPosicionAsync(posicion);
+                totalJugadores = jugadores.Count;
             }
             else if (!string.IsNullOrEmpty(equipo))
             {
                 jugadores = await this.repo.GetJugadoresByEquipoAsync(equipo);
+                totalJugadores = jugadores.Count;
             }
             else
             {
                 jugadores = await this.repo.GetGrupoJugadoresAsync(indiceInicio, tamanoPagina);
+                totalJugadores = await this.repo.GetNumeroTotalJugadoresAsync();
             }
 
-            var equipos = await this.repoEq.GetAllEquiposAsync();
+            // Calcular el número total de páginas
+            int totalPaginas = (int)Math.Ceiling((double)totalJugadores / tamanoPagina);
 
-            var totalJugadores = await this.repo.GetNumeroTotalJugadoresAsync(); // Obtener el total de jugadores
-            ViewBag.TotalPaginas = (int)Math.Ceiling((double)totalJugadores / tamanoPagina); // Calcular el número total de páginas
+            ViewBag.TotalPaginas = totalPaginas;
+            ViewBag.Pagina = pagina;
 
             var viewModel = new JugadoresViewModel
             {
                 Jugadores = jugadores,
-                Equipos = equipos
+                Equipos = await this.repoEq.GetAllEquiposAsync()
             };
-
-            ViewBag.Pagina = pagina;
 
             return View(viewModel);
         }
+
+
+
+
+
 
         public async Task<IActionResult> DetalleJugador(int id)
         {

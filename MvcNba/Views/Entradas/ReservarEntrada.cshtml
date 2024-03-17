@@ -1,0 +1,126 @@
+﻿@model ModelVistaProximosPartidos
+
+@{
+    var usuario = Context.Session.GetObject<Usuario>("CurrentUser");
+    var partidoid = ViewData["PARTIDOID"];
+}
+
+<style>
+
+    .card-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: box-shadow 0.3s ease;
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+        margin-top: -100px; /* Ajuste para subir la tarjeta */
+    }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+    .card-img-top {
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        width: 100%;
+        height: auto;
+    }
+
+    .card-body {
+        padding: 30px;
+    }
+
+    .card-title {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .card-text {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #666;
+    }
+
+    .reservation-form {
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    .btn-reserve {
+        background-color: #ff5a5f;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        border: none;
+        border-radius: 30px;
+        padding: 15px 40px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-reserve:hover {
+            background-color: #ff7b7f;
+        }
+
+    /* Estilos para el formulario de reserva */
+    label {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    select, input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        color: #333;
+    }
+</style>
+
+<div class="card-container">
+    <div class="card">
+        <img class="card-img-top" src="@HelperPathProvider.MapUrlPath(@Model.ImagenPartido, Folders.Partidos)" alt="Imagen del Partido" />
+        <div class="card-body">
+            <h5 class="card-title">@Model.EquipoLocal vs @Model.EquipoVisitante</h5>
+            <p class="card-text">Fecha y Hora: @Model.Fecha.ToShortDateString() - @Model.Fecha.ToShortTimeString()</p>
+            <p class="card-text">Precio de la Entrada: $@Model.PrecioEntrada</p>
+            <p class="card-text">Plazas Disponibles: @Model.PlazasDisponibles</p>
+
+            <form class="reservation-form" method="post">
+                <input type="hidden" name="usuarioid" value="@usuario.IdUsuario" />
+                <input type="hidden" name="partidoid" value="@partidoid" />
+
+                <label for="asiento">Selecciona tu asiento:</label>
+                <select name="asiento" id="asiento">
+                    @for (var i = 1; i <= Model.PlazasDisponibles; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+
+                <label for="cantidad">Cantidad de Entradas:</label>
+                <input type="number" name="cantidad" id="cantidad" value="1" min="1" max="@Model.PlazasDisponibles" />
+
+                <button class="btn-reserve" type="submit">
+                    ¡Reserva Ahora!
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

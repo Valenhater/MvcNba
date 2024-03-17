@@ -16,5 +16,6 @@ namespace MvcNba.Data
         public DbSet<Rol> Roles { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<ModelVistaProximosPartidos> VistaProximosPartidos { get; set; }
+
     }
 }

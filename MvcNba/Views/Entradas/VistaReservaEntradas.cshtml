@@ -1,13 +1,23 @@
 ﻿@model List<MvcNba.Models.ModelVistaProximosPartidos>
 @using Newtonsoft.Json
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "Reservar Entradas";
 }
 
-
+@{
+    var currentUser = HttpContextAccessor.HttpContext.Session.GetObject<Usuario>("CurrentUser");
+}
 
 <style>
+    body {
+        background-image: url("/varios/nbaplay.webp");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: #333; /* Cambio de color del texto general a negro para mejorar la legibilidad */
+    }
 
     .login-message {
         background-color: #f8d7da;
@@ -28,8 +38,10 @@
         display: flex;
         align-items: center;
     }
+
     .container {
         margin-top: 50px;
+        margin-bottom: 50px; /* Aumentamos el espacio entre los partidos y el footer */
     }
 
     .card {
@@ -47,8 +59,23 @@
     }
 
     .card-title {
-        font-size: 24px;
+        font-size: 36px; /* Aumentamos el tamaño del título */
         font-weight: bold;
+        margin-top: 50px; /* Aumentamos el espacio entre el título y la imagen */
+        color: #fff; /* Cambiamos el color del título a blanco */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Añadimos sombra al texto */
+    }
+
+    .team-name {
+        color: #333; /* Cambiamos el color del nombre del equipo dentro de las cards */
+        font-weight: bold;
+        font-size: 24px; /* Ajustamos el tamaño del texto */
+    }
+
+    .vs {
+        color: #333; /* Cambiamos el color del "vs" dentro de las cards */
+        font-weight: bold;
+        font-size: 24px; /* Ajustamos el tamaño del texto */
     }
 
     .btn-reservar {
@@ -80,9 +107,11 @@
     .btn-reservar2:hover {
         background-color: mediumpurple;
     }
+
 </style>
+
 <div class="container">
-    <h1 class="text-center">Próximos Partidos</h1>
+    <h1 class="text-center card-title" style="margin-bottom: 30px;">Próximos Partidos</h1> <!-- Añadimos más espacio entre el título y la imagen -->
     <div class="row">
         @foreach (var partido in Model)
         {
@@ -90,13 +119,11 @@
                 <div class="card">
                     <img class="card-img-top" src="@HelperPathProvider.MapUrlPath(@partido.ImagenPartido, Folders.Partidos)" alt="Imagen del Partido" />
                     <div class="card-body">
-                        <h5 class="card-title">@partido.EquipoLocal vs @partido.EquipoVisitante</h5>
-                        <p class="card-text">@partido.Fecha.ToShortDateString() - @partido.Fecha.ToShortTimeString()</p>
-                        <p class="card-text">Precio de la Entrada: $@partido.PrecioEntrada</p>
-                        <p class="card-text">Plazas Disponibles: @partido.PlazasDisponibles</p>
+                        <h5 class="card-title"><span class="team-name">@partido.EquipoLocal</span> <span class="vs">vs</span> <span class="team-name">@partido.EquipoVisitante</span></h5> <!-- Agregamos clase team-name y vs -->
                         @if (Context.Session.GetObject<Usuario>("CurrentUser") != null)
                         {
-                            <a asp-controller="Entradas" asp-action="Reservar" asp-route-id="@partido.IdPartido" class="btn btn-reservar">Reservar Entrada</a>
+                            <a asp-controller="Entradas" asp-action="ReservarEntrada" asp-route-partidoid="@partido.IdPartido" asp-route-usuarioid="@currentUser.IdUsuario" class="btn btn-reservar">Reservar Entrada</a>
+
                             @if (Model.Any(p => Context.Session.GetObject<List<int>>("PARTIDOS")?.Contains(partido.IdPartido) ?? false))
                             {
                                 <img src="~/varios/guardado.png" style="width: 35px; height: 35px;" />
@@ -117,4 +144,8 @@
             </div>
         }
     </div>
+</div>
+
+<div style="margin-top:40px">
+    aa
 </div>

@@ -24,5 +24,9 @@ namespace MvcNba.Models
 
         [ForeignKey("Rol")]
         public int Rol { get; set; }
+        [Column("NombreCompleto")]
+        public string NombreCompleto { get; set; }
+        [Column("Direccion")]
+        public string Direccion { get; set; }
     }
 }

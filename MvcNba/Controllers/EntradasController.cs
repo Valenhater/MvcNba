@@ -43,7 +43,46 @@ namespace MvcNba.Controllers
                 List<ModelVistaProximosPartidos> partidos = await repo.GetFavoritosAsync(idsPartidos);
                 return View(partidos);
             }
+            ViewData["MENSAJE"] = "No hay partidos almacenados";
             return View();
         }
+        public async Task<IActionResult> ReservarEntrada(int partidoid)
+        {
+            // Obtener el modelo de ReservaEntrada esperando el resultado de la tarea
+            ModelVistaProximosPartidos partido = await this.repo.FindPartidoAsync(partidoid);
+            ViewData["PARTIDOID"] = partidoid;
+            // Pasar el modelo a la vista
+            return View(partido);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReservarEntrada(int usuarioid, int partidoid, int asiento, int cantidad)
+        {
+            for (int i = 0; i < cantidad; i++)
+            {
+                await this.repo.ReservarEntradaAsync(usuarioid, partidoid, asiento + i);
+            }
+
+            return RedirectToAction("EntradasReservadas", "Entradas");
+        }
+        public async Task<IActionResult> EntradasReservadas()
+        {
+            var reservas = await repo.GetReservasEntradasAsync();
+            return View(reservas);
+        }
+        public async Task<IActionResult> EliminarReserva(int reservaId)
+        {
+            var exito = await repo.EliminarReservaEntradaAsync(reservaId);
+            if (exito)
+            {
+                TempData["Mensaje"] = "Reserva eliminada correctamente.";
+            }
+            else
+            {
+                TempData["Error"] = "No se pudo eliminar la reserva.";
+            }
+            return RedirectToAction("EntradasReservadas");
+        }
+
     }
 }

@@ -1,0 +1,30 @@
+﻿@model List<MvcNba.Models.ReservaEntrada>
+
+<h1 class="text-center mb-4">Entradas Reservadas</h1>
+
+<div class="row">
+    @foreach (var reserva in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="@HelperPathProvider.MapUrlPath(@reserva.Partido.ImagenPartido, Folders.Partidos)" class="card-img-top img-fluid" alt="Imagen del partido">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Reserva a nombre de: @reserva.Usuario.Nombre</h5>
+                    <p class="card-text text-center">Fecha del partido: @reserva.Partido.Fecha.ToShortDateString()</p>
+                    <p class="card-text text-center">Asiento: @reserva.Asiento</p>
+                    <p class="card-text text-center">Precio: @reserva.Partido.PrecioEntrada €</p>
+                </div>
+                <div class="card-footer">
+                    <form method="post" asp-action="EliminarReserva" asp-route-reservaId="@reserva.ReservaId">
+                        <button type="submit" class="btn btn-danger btn-block">Cancelar Reserva</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (Model.Count == 0)
+{
+    <p class="text-center mt-3">No hay entradas reservadas.</p>
+}

@@ -9,8 +9,8 @@ namespace MvcNba.Repositories
 {
 
     #region PROCEDURES
-    //    CREATE PROCEDURE SP_NEQUIPO_JUGADORES
-    //    @NombreEquipo NVARCHAR(100)
+    //CREATE PROCEDURE SP_NEQUIPO_JUGADORES
+    //@NombreEquipo NVARCHAR(100)
     //AS
     //BEGIN
     //    SELECT j.*
@@ -62,8 +62,7 @@ namespace MvcNba.Repositories
         public async Task<List<Jugador>> GetJugadoresByEquipoAsync(string nombreEquipo)
         {
             // El procedimiento almacenado espera un parámetro de tipo NVARCHAR(100)
-            var nombreEquipoParam = new SqlParameter("@NombreEquipo", SqlDbType.NVarChar, 100);
-            nombreEquipoParam.Value = nombreEquipo;
+            var nombreEquipoParam = new SqlParameter("@NombreEquipo", nombreEquipo);
 
             // Ejecutar el procedimiento almacenado y obtener los resultados
             var jugadores = await context.Jugadores

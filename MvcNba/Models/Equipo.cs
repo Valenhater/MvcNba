@@ -17,5 +17,7 @@ namespace MvcNba.Models
         public DateTime Fundacion { get; set; }
         [Column("IMAGEN")]
         public string Imagen { get; set; }
+        [Column("IMGEQUIPOS")]
+        public string ImagenFondo { get; set; }
     }
 }

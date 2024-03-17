@@ -45,25 +45,25 @@ namespace MvcNba.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Registro(string nombre, string password, string confirmPassword, string email)
+        public async Task<IActionResult> Registro(string nombre, string password, string confirmPassword, string email, string nombreCompleto, string direccion)
         {
             if (repo.UsuarioExists(nombre))
             {
-                ViewData["Mensaje"] = "El nombre de usuario ya está en uso. Por favor, elige otro.";
+                ViewData["Mensaje"] = "Username ya en uso.";
                 return View();
             }
             if (!string.IsNullOrEmpty(email) && repo.EmailExists(email))
             {
-                ViewData["Mensaje"] = "El correo electrónico ya está en uso. Por favor, utiliza otro.";
+                ViewData["Mensaje"] = "Correo electronico ya en uso.";
                 return View();
             }
             if (password != confirmPassword)
             {
-                ViewData["Mensaje"] = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
+                ViewData["Mensaje"] = "Las contraseñas no coinciden.";
                 return View();
             }
 
-            await repo.RegisterUserAsync(nombre, password, email);
+            await repo.RegisterUserAsync(nombre, password, email, nombreCompleto, direccion);
 
             Usuario user = repo.GetUser(nombre);
             HttpContext.Session.SetObject("CurrentUser", user);
@@ -87,11 +87,10 @@ namespace MvcNba.Controllers
 
             return View(currentUser); // Pasar el usuario actual como modelo a la vista
         }
-
         [HttpPost]
-        public async Task<IActionResult> EditarPerfil(int id, string nombre, string email)
+        public async Task<IActionResult> EditarPerfil(int id, string nombre, string email, string nombreCompleto, string direccion)
         {
-            this.repo.UpdateUserAsync(id, nombre, email);
+            this.repo.UpdateUserAsync(id, nombre, email, nombreCompleto, direccion);
 
             // Actualizar la sesión con los nuevos datos del usuario
             var updatedUser = await this.repo.GetUserByIdAsync(id);
@@ -102,6 +101,13 @@ namespace MvcNba.Controllers
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> VerPerfil(int id)
+        {
+            var perfilUsuario = await this.repo.GetUserByIdAsync(id);
+
+            return View(perfilUsuario);
         }
     }
 }

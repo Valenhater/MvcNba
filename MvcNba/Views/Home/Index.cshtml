@@ -2,7 +2,60 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    body {
+        background-color: black;
+        color: white;
+    }
+
+    .animated-text p {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+        .animated-text p.show {
+            opacity: 1;
+        }
+
+    .img-container {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="img-container">
+                <img src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbac2bfe0-2638-4d21-a44f-d51d5acd580f_1980x1320.jpeg" alt="Equipo NBA" class="img-fluid mb-3" style="max-width: 100%;">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="text-center">
+                <h1 class="display-4 mb-4">¡Bienvenido a nuestra plataforma de NBA!</h1>
+                <div class="animated-text mb-4">
+                    <p class="lead mb-1">Sumérgete en el emocionante mundo del baloncesto profesional con nuestra completa plataforma dedicada a la NBA.</p>
+                    <p class="lead mb-1">Descubre los próximos partidos, reserva tus entradas, explora las estadísticas de los jugadores más destacados y mantente al tanto de las últimas noticias y tendencias.</p>
+                    <p class="lead mb-1">En nuestro sitio, encontrarás todo lo que necesitas para vivir una experiencia inigualable en el universo de la NBA.</p>
+                    <p class="lead mb-1">¡No esperes más para unirte a nuestra comunidad de fanáticos del baloncesto!</p>
+                    <p class="lead mb-1">¡Conviértete en un experto en baloncesto y disfruta de contenido exclusivo, análisis profundo y mucho más!</p>
+                    <p class="lead mb-1">Regístrate ahora para acceder a funciones premium y ofertas especiales.</p>
+                </div>
+                <a href="#" class="btn btn-primary btn-lg mt-4">Explorar Ahora</a>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const animatedText = document.querySelectorAll('.animated-text p');
+        animatedText.forEach((element, index) => {
+            setTimeout(() => {
+                element.classList.add('show');
+            }, index * 500); // Adjust animation delay here
+        });
+    });
+</script>

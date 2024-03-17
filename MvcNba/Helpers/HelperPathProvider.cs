@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 
 namespace MvcNba.Helpers
 {
-    public enum Folders { Equipos = 0, Jugadores = 1, Partidos = 2 }
+    public enum Folders { Equipos = 0, Jugadores = 1, Partidos = 2, Fondos = 3 }
     public class HelperPathProvider
     {
         //NECESITAMOS ACCEDER AL SISTEMA DE ARCHIVOS DEL WEB SERVER (wwwroot) 
@@ -27,6 +27,10 @@ namespace MvcNba.Helpers
             else if (folder == Folders.Partidos)
             {
                 carpeta = "partidos";
+            }
+            else if (folder == Folders.Fondos)
+            {
+                carpeta = "fondoequipos";
             }
 
             return carpeta;

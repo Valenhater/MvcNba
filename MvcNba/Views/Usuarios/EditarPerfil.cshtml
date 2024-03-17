@@ -1,19 +1,39 @@
 ﻿@model Usuario
 
-<form method="post">
-    <input type="hidden" name="id" value="@Model.IdUsuario" />
-    <input type="hidden" name="rol" value="@Model.Rol" />
-    <input type="hidden" name="passwd" value="@Model.Password" />
+<div class="container">
+    <h2 class="text-center">Editar Perfil</h2>
+    <hr>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form method="post">
+                <input type="hidden" name="id" value="@Model.IdUsuario" />
+                <input type="hidden" name="rol" value="@Model.Rol" />
+                <input type="hidden" name="passwd" value="@Model.Password" />
 
-    <div class="form-group">
-        <label for="Nombre" class="control-label">Nombre</label>
-        <input type="text" name="nombre" value="@Model.Nombre" class="form-control" />
+                <div class="form-group">
+                    <label for="Nombre">Nombre</label>
+                    <input type="text" name="nombre" value="@Model.Nombre" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="NombreCompleto">Nombre Completo</label>
+                    <input type="text" name="nombreCompleto" value="@Model.NombreCompleto" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="email" name="email" value="@Model.Email" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="Direccion">Dirección</label>
+                    <input type="text" name="direccion" value="@Model.Direccion" class="form-control" />
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label for="Email" class="control-label">Email</label>
-        <input type="email" name="email" value="@Model.Email" class="form-control" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-</form>
+</div>
