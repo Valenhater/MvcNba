@@ -1,7 +1,4 @@
-﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-@using MvcNba.Extensions
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,43 +6,117 @@
     <title>@ViewData["Title"] - MvcNba</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-Zv2/nJaj9C4aZ2v56DwyqiWZBYKv0j+OLb90LzEfL0UJVE1pJ+lyabPLA/w8CwL3xXjj3v1ZAgfJ47qW1c+rcA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link rel="stylesheet" href="~/MvcNba.styles.css" asp-append-version="true" />
+    <style>
+        :root {
+            --main-color: #007bff;
+            --hover-color: #0056b3;
+            --nav-bg-color: #f8f9fa;
+            --dropdown-bg-color: #ffffff;
+            --footer-bg-color: #222;
+            --footer-text-color: #ffffff;
+        }
+
+        .navbar-custom {
+            background-color: var(--nav-bg-color);
+            border-bottom: 2px solid var(--main-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+
+        .navbar-custom .navbar-brand img {
+            max-height: 70px;
+            width: auto;
+        }
+
+        .nav-link {
+            color: var(--main-color) !important;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .nav-link:hover, .nav-link:focus {
+            color: var(--hover-color) !important;
+            background-color: transparent;
+        }
+
+        .navbar-toggler {
+            border-color: var(--main-color);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'><path stroke='rgba(0, 123, 255, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+        }
+
+        .dropdown-menu {
+            background-color: var(--dropdown-bg-color);
+        }
+
+        footer {
+            background-color: var(--footer-bg-color);
+            color: var(--footer-text-color);
+        }
+
+         html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        footer {
+            flex-shrink: 0;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid d-flex justify-content-between align-items-center">
-                <div>
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/varios/logonba.webp" style="width:100px;height:70px" /></a>
-                </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-sm navbar-custom navbar-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/varios/logonba.webp" alt="Logo NBA">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse">
-                    <ul class="navbar-nav justify-content-end">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Partidos" asp-action="PartidosJugados">Partidos</a>
+                            <a class="nav-link" asp-area="" asp-controller="Partidos" asp-action="PartidosJugados">Encuentros</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Partidos" asp-action="Index">Equipos</a>
+                            <a class="nav-link" asp-area="" asp-controller="Partidos" asp-action="Index">Equipos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Jugadores" asp-action="Jugadores">Jugadores</a>
+                            <a class="nav-link" asp-area="" asp-controller="Jugadores" asp-action="Jugadores">Jugadores</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Entradas" asp-action="VistaReservaEntradas">Entradas</a>
+                            <a class="nav-link" asp-area="" asp-controller="Entradas" asp-action="VistaReservaEntradas">Entradas</a>
                         </li>
+                         <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Ayuda">Ayuda</a>
+                        </li>
+                        @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                        @using MvcNba.Extensions
                         @{
                             var currentUser = HttpContextAccessor.HttpContext.Session.GetObject<Usuario>("CurrentUser");
                             if (currentUser != null)
                             {
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:green">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         @currentUser.Nombre
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="@Url.Action("PartidosFavoritos", "Entradas")">Carrito V1</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("PartidosFavoritos", "Entradas")">Carrito</a></li>
                                         <li><a class="dropdown-item" href="@Url.Action("EntradasReservadas", "Entradas")">Reservas</a></li>
                                         <li>
                                             <a class="dropdown-item" href="@Url.Action("VerPerfil", "Usuarios", new { id = currentUser.IdUsuario })">Ver Perfil</a>
@@ -57,7 +128,7 @@
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Login">Iniciar Sesion</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Usuarios" asp-action="Login">Iniciar Sesión</a>
                                 </li>
                             }
                         }
@@ -72,37 +143,45 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted" style="background-color: #222;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <a asp-area="" asp-controller="Home" asp-action="Privacy" style="color: white; text-decoration: none; font-weight: bold;">Privacidad</a>
-                </div>
-                <div class="col-md-3">
-                    <a href="https://twitter.com/NBA">
-                        <img src="~/varios/twitter.png" alt="Twitter NBA" style="width:40px;height:40px">
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="https://www.youtube.com/user/NBA">
-                        <img src="~/varios/youtube.png" alt="YouTube NBA" style="width:70px;height:40px">
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a href="https://www.tiktok.com/nba">
-                        <img src="~/varios/tiktok.webp" alt="TikTok NBA" style="width:70px;height:70px">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
+ <footer class="bg-dark text-center text-white">
+    <!-- Social media links -->
+    <section class="mb-4">
+        <!-- Twitter -->
+        <a class="btn btn-floating m-1" href="https://twitter.com/NBA" target="_blank" role="button">
+            <img src="/varios/twitter.png" alt="Twitter" style="width: 30px; height: 30px;">
+        </a>
+
+        <!-- Facebook -->
+        <a class="btn btn-floating m-1"  href="https://www.facebook.com/nba/" target="_blank" role="button">
+            <img src="/varios/facebook.webp" alt="Facebook" style="width: 30px; height: 30px;">
+        </a>
+
+        <!-- YouTube -->
+        <a class="btn btn-floating m-1"  href="https://www.youtube.com/user/NBA" target="_blank" role="button">
+            <img src="/varios/youtube.png" alt="YouTube" style="width: 40px; height: 30px;">
+        </a>
+
+        <!-- TikTok -->
+        <a class="btn btn-floating m-1"  href="https://www.tiktok.com/nba/" target="_blank" role="button">
+            <img src="/varios/tiktok.webp" alt="TikTok" style="width: 50px; height: 50px;">
+        </a>
+    </section>
+    <!-- Privacy and copyright -->
+    <div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
+        <p class="mb-0">Privacidad: <a class="text-white" href="@Url.Action("Privacy", "Home")">Privacidad</a></p>
+        <p class="mb-0">© 2024 Todos los derechos reservados por <a class="text-white" href="https://www.nba.com/">NBA</a></p>
+    </div>
+</footer>
+
+
+    </div>
 
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+ 

@@ -1,66 +1,63 @@
 ﻿@model MvcNba.Models.Equipo
 
-@{
-    ViewData["Title"] = "Detalle";
-}
-
 <style>
+    /* Estilos generales */
     body {
         background-image: url("@HelperPathProvider.MapUrlPath(Model.ImagenFondo, Folders.Fondos)");
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
+        font-family: Arial, sans-serif;
     }
 
     .detalle-container {
-        background-color: #fff;
+        background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
         border-radius: 15px;
         padding: 40px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-top: 50px; /* Ajuste de margen superior */
     }
 
     .detalle-title {
         font-size: 48px;
         font-weight: bold;
-        color: #333;
+        color: #333; /* Texto gris oscuro */
         margin-bottom: 20px;
-        text-align: center;
     }
 
     .detalle-info {
         font-size: 24px;
-        color: #666;
-        margin-bottom: 20px;
+        color: #666; /* Texto gris medio */
+        margin-bottom: 15px;
     }
 
     .detalle-image {
         width: 100%;
-        max-width: 500px;
+        max-width: 400px;
         border-radius: 15px;
         margin: 20px auto;
         display: block;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Sombra más suave */
     }
 
     .btn-back {
-        display: block;
-        width: 200px;
-        margin: 0 auto;
-        padding: 15px 20px;
+        display: inline-block;
+        padding: 15px 30px;
         font-size: 24px;
         font-weight: bold;
-        color: #fff;
-        background-color: #007bff;
-        border: none;
+        color: #fff; /* Texto blanco */
+        background-color: #4caf50; /* Fondo verde claro */
+        border: 2px solid transparent; /* Borde transparente */
         border-radius: 10px;
-        text-align: center;
         text-decoration: none;
-        transition: background-color 0.3s;
+        transition: background-color 0.3s, border-color 0.3s; /* Transiciones suaves */
     }
 
-        .btn-back:hover {
-            background-color: #0056b3;
-        }
+    .btn-back:hover {
+        background-color: #388e3c; /* Cambiar color de fondo al hacer hover */
+        border-color: #388e3c; /* Cambiar color del borde al hacer hover */
+    }
 </style>
 
 <div class="container">
@@ -78,7 +75,7 @@
                     <strong>Fundación:</strong> @Model.Fundacion.ToShortDateString()
                 </div>
                 <img class="detalle-image" src="@HelperPathProvider.MapUrlPath(Model.Imagen, Folders.Equipos)" alt="@Model.Nombre" />
-                <a asp-action="Index" class="btn btn-back">Volver al Listado</a>
+                <a asp-action="Index" class="btn-back">Volver al Listado</a>
             </div>
         </div>
     </div>

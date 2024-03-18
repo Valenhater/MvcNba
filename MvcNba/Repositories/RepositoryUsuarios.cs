@@ -151,11 +151,18 @@ namespace MvcNba.Repositories
             this.com.Parameters.Clear();
         }
 
-
-
         public async Task<Usuario> GetUserByIdAsync(int id)
         {
             return await context.Usuarios.FindAsync(id);
+        }
+        public async Task DeleteUserAsync(int id)
+        {
+            var user = await context.Usuarios.FindAsync(id);
+            if (user != null)
+            {
+                context.Usuarios.Remove(user);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

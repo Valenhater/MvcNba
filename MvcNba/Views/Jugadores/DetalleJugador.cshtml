@@ -1,34 +1,60 @@
 ﻿@model MvcNba.Models.Jugador
 
-<style>
-    /* Estilos para la ficha de jugador */
-    .player-card {
-        max-width: 500px;
-        margin: 0 auto;
-        padding: 20px;
-        border: 2px solid black; /* Cambiado el color del borde a negro */
-        border-radius: 10px;
-        background-color: #f2f2f2;
-        text-align: center;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MvcNba</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MvcNba.styles.css" asp-append-version="true" />
+    <style>
+         body{
+         background-color: #f2f2f2;
     }
+        /* Estilos para la ficha de jugador */
+        .player-card {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 3px solid #ffa726; /* Borde naranja claro */
+            border-radius: 15px;
+            background-color: #f5f5f5; /* Fondo gris claro */
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Sombra más suave */
+            transition: transform 0.5s, box-shadow 0.5s;
+        }
+
+        .player-card:hover {
+            transform: scale(1.05); /* Aumentar tamaño al hacer hover */
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada al hacer hover */
+        }
 
         .player-card h1 {
-            font-size: 28px;
+            font-size: 36px;
             font-weight: bold;
             margin-bottom: 20px;
-            color: black; /* Cambiado el color del título a negro */
+            color: #333; /* Texto gris oscuro */
         }
 
         .player-card h4 {
-            font-size: 20px;
+            font-size: 28px;
             font-weight: bold;
-            color: #007bff;
+            color: #4caf50; /* Texto verde claro */
+            margin-bottom: 10px;
+            transition: color 0.5s;
+        }
+
+        .player-card:hover h4 {
+            color: #689f38; /* Cambiar color al hacer hover */
         }
 
         .player-card p {
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 10px;
-            color: black; /* Cambiado el color del texto a negro */
+            color: #666; /* Texto gris medio */
+            line-height: 1.6; /* Espaciado entre líneas */
         }
 
         .player-card img {
@@ -38,35 +64,49 @@
             height: 200px;
             object-fit: cover;
             border-radius: 50%;
-            border: 4px solid black; /* Cambiado el color del borde a negro */
+            border: 4px solid #ffa726; /* Borde naranja claro */
             margin-bottom: 20px;
+            transition: border-color 0.5s;
         }
 
-    .return-button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        text-decoration: none;
-        font-size: 18px;
-    }
+        .player-card:hover img {
+            border-color: #4caf50; /* Cambiar color del borde al hacer hover */
+        }
+
+        .return-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4caf50; /* Fondo verde claro */
+            color: #fff; /* Texto blanco */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.5s;
+            text-decoration: none;
+            font-size: 18px;
+        }
 
         .return-button:hover {
-            background-color: #0056b3;
+            background-color: #689f38; /* Cambiar color de fondo al hacer hover */
         }
-</style>
+    </style>
+</head>
+<body>
+    <div style="margin-top:30px"> </div>
+    <div class="player-card">
+        <h1>Detalles del Jugador</h1>
+        <img src="@HelperPathProvider.MapUrlPath(Model.Imagen, Folders.Jugadores)" alt="@Model.Nombre" />
+        <h4>Nombre: @Model.Nombre</h4>
+        <p><strong>Posición:</strong> @Model.Posicion</p>
+        <p><strong>Puntos por Partido:</strong> @Model.PuntosPorPartido</p>
+        <p><strong>Rebotes por Partido:</strong> @Model.RebotesPorPartido</p>
+        <p><strong>Asistencias por Partido:</strong> @Model.AsistenciasPorPartido</p>
+        <a asp-controller="Jugadores" asp-action="Jugadores" class="return-button">Volver a jugadores</a>
+    </div>
 
-<div class="player-card">
-    <h1>Detalles del Jugador</h1>
-    <img src="@HelperPathProvider.MapUrlPath(Model.Imagen, Folders.Jugadores)" alt="@Model.Nombre" />
-    <h4>Nombre: @Model.Nombre</h4>
-    <p>Posición: @Model.Posicion</p>
-    <p>Puntos por Partido: @Model.PuntosPorPartido</p>
-    <p>Rebotes por Partido: @Model.RebotesPorPartido</p>
-    <p>Asistencias por Partido: @Model.AsistenciasPorPartido</p>
-    <a asp-controller="Jugadores" asp-action="Jugadores" class="return-button">Volver a jugadores</a>
-</div>
+    <div style="margin-top:120px"> </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

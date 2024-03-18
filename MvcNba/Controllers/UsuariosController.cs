@@ -100,7 +100,7 @@ namespace MvcNba.Controllers
                 HttpContext.Session.SetObject("CurrentUser", updatedUser);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("PartidosJugados", "Partidos");
         }
 
         public async Task<IActionResult> VerPerfil(int id)
@@ -108,6 +108,17 @@ namespace MvcNba.Controllers
             var perfilUsuario = await this.repo.GetUserByIdAsync(id);
 
             return View(perfilUsuario);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EliminarPerfil(int id)
+        {
+            await repo.DeleteUserAsync(id);
+
+            // Eliminar la sesión del usuario actual
+            HttpContext.Session.Remove("CurrentUser");
+
+            // Redireccionar al login después de eliminar el perfil
+            return RedirectToAction("Login", "Usuarios");
         }
     }
 }

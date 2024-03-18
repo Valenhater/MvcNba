@@ -1,122 +1,136 @@
-﻿@model List<Partido>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Últimas Jornadas - MvcNba</title>
+    <style>
+        body {
+            background-image: url("https://wallpapers.com/images/featured/nba-xtmd671migdy7xa7.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Roboto', sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
 
-<style>
-    body {
-        background-image: url("https://wallpapers.com/images/featured/nba-xtmd671migdy7xa7.jpg");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-    }
-    .titulo {
-        font-size: 48px;
-        font-weight: bold;
-        color: #333;
-        background-color: #f0f0f0;
-        padding: 20px;
-        text-align: center;
-        margin-bottom: 20px;
-        border-radius: 10px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    }
+        .titulo {
+            font-size: 48px;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+            max-width: 960px;
+        }
 
-    .marcador-container {
-        margin-bottom: 20px;
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        overflow: hidden;
-        background-color: #fff;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    }
+        .marcador-container {
+            margin: 20px auto;
+            border: none;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            max-width: 960px;
+        }
 
-    .marcador-header {
-        background-color: #333;
-        color: #fff;
-        padding: 15px;
-        text-align: center;
-        font-weight: bold;
-        font-size: 24px;
-    }
+        .marcador-header {
+            background-color: #1d428a;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
 
-    .marcador-body {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-    }
+        .marcador-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
 
-    .equipo {
-        text-align: center;
-        flex: 1;
-    }
+        .equipo-nombre, .puntos, .vs {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
 
-    .equipo-nombre {
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-    }
+        .equipo {
+            text-align: center;
+            flex: 1;
+        }
 
-    .puntos {
-        font-size: 32px;
-        font-weight: bold;
-        margin-top: 10px;
-    }
+        .equipo-nombre {
+            font-size: 24px;
+        }
 
-    .vs {
-        font-size: 28px;
-        font-weight: bold;
-        color: #333;
-        margin-top: 10px;
-    }
+        .puntos {
+            font-size: 32px;
+            margin-top: 10px;
+        }
 
-    .ganador {
-        color: #4caf50;
-    }
+        .vs {
+            font-size: 28px;
+            margin: 0 20px;
+        }
 
-    .perdedor {
-        color: #f44336;
-    }
+        .ganador {
+            color: green;
+        }
 
-    /* Animación de resaltado */
-    .marcador-container:hover {
-        transform: scale(1.05);
-        transition: transform 0.3s ease-in-out;
-    }
+        .perdedor {
+            color: red;
+        }
 
-    .banner-image {
-        width: 100%;
-        height: 400px; /* Ajusta la altura del banner según sea necesario */
-        object-fit: cover;
-    }
-</style>
+        .marcador-container:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.2);
+        }
 
-<img class="banner-image" src="https://i.redd.it/the-current-banner-of-the-nba-twitter-page-v0-twee9z5szrma1.jpg?width=1080&format=pjpg&auto=webp&s=fadc8fc72d49abeeb29dd190a5e3527bd784bda1" />
+        .banner-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-<h1 class="titulo">Ultima Jornadas</h1>
+        .banner-image {
+            width: 100%;
+            height: auto;
+            max-width: 960px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div style="margin-top:30px"> </div>
+    <h1 class="titulo">Últimas Jornadas</h1>
 
-@foreach (var partido in Model)
-{
-    <div class="marcador-container">
-        <div class="marcador-header">@partido.Fecha.ToShortDateString()</div>
-        <div class="marcador-body">
-            <div class="equipo">
-                <span class="equipo-nombre">@partido.EquipoLocal.Nombre</span>
-                <span class="puntos @if(partido.PuntosLocal > partido.PuntosVisitante) {
-            <text>ganador</text>
- } else if (partido.PuntosLocal < partido.PuntosVisitante) {
-            <text>perdedor</text>
- }">@partido.PuntosLocal</span>
-            </div>
-            <div>
-                <span class="vs">VS</span>
-            </div>
-            <div class="equipo">
-                <span class="equipo-nombre">@partido.EquipoVisitante.Nombre</span>
-                <span class="puntos @if(partido.PuntosVisitante > partido.PuntosLocal) {
-            <text>ganador</text>
- } else if (partido.PuntosVisitante < partido.PuntosLocal) {
-            <text>perdedor</text>
- }">@partido.PuntosVisitante</span>
+    <div class="banner-container">
+        <img src="/varios/header.webp" class="banner-image" alt="Encabezado" />
+    </div>
+
+    @foreach (var partido in Model)
+    {
+        <div class="marcador-container">
+            <div class="marcador-header">@partido.Fecha.ToShortDateString()</div>
+            <div class="marcador-body">
+                <div class="equipo">
+                    <span class="equipo-nombre">@partido.EquipoLocal.Nombre</span>
+                    <span class="puntos @(partido.PuntosLocal > partido.PuntosVisitante ? "ganador" : "perdedor")">@partido.PuntosLocal</span>
+                </div>
+                <div>
+                    <span class="vs">VS</span>
+                </div>
+                <div class="equipo">
+                    <span class="equipo-nombre">@partido.EquipoVisitante.Nombre</span>
+                    <span class="puntos @(partido.PuntosVisitante > partido.PuntosLocal ? "ganador" : "perdedor")">@partido.PuntosVisitante</span>
+                </div>
             </div>
         </div>
-    </div>
-}
+    }
+
+</body>
+</html>

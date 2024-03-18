@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Ayuda</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        /* Estilos para los modales */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #333;
+        }
+
+        /* Estilos para los enlaces a los modales */
+        .modal-link {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .modal-link:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Página de Ayuda</h1>
+        <p>Bienvenido a nuestra página de ayuda. Aquí encontrarás información útil y contactos de ayuda en caso de que necesites asistencia.</p>
+
+        <h2>Problemas Comunes</h2>
+        <p>A continuación, algunos problemas comunes que puedes encontrar y cómo resolverlos:</p>
+        <ul>
+            <li><a href="#problema1" class="modal-link">No puedo acceder a mi cuenta.</a></li>
+            <li><a href="#problema2" class="modal-link">No recuerdo mi contraseña.</a></li>
+            <li><a href="#problema3" class="modal-link">Quiero solicitar un reembolso de entradas.</a></li>
+            <li><a href="#problema4" class="modal-link">Necesito ayuda con una compra.</a></li>
+        </ul>
+
+        <div class="contact-info">
+            <h2>Contactos de Ayuda</h2>
+            <p>Si necesitas asistencia adicional, no dudes en contactarnos:</p>
+            <ul>
+                <li>Email: <a href="mailto:entradasnba@valentingc.com">entradasnba@valentingc.com</a></li>
+                <li>Teléfono: <a href="tel:+1234567890">+34 123-456-789</a></li>
+                <li>Horario de Atención al Cliente: Lunes a Viernes, de 9:00 am a 5:00 pm</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal para el problema 1 -->
+    <div id="problema1" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Problema: No puedo acceder a mi cuenta</h3>
+            <p>Para resolver este problema, asegúrate de estar utilizando las credenciales correctas. Si tienes problemas para acceder, contáctanos a través de nuestro correo electrónico o número de teléfono para obtener ayuda adicional.</p>
+        </div>
+    </div>
+
+    <!-- Modal para el problema 2 -->
+    <div id="problema2" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Problema: No recuerdo mi contraseña</h3>
+            <p>Si has olvidado tu contraseña, puedes enviar un correo al contacto en el apartado inferior solicitando uno nuevo. Si necesitas ayuda adicional, no dudes en contactarnos.</p>
+        </div>
+    </div>
+
+    <!-- Modal para el problema 3 -->
+    <div id="problema3" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Problema: Quiero solicitar un reembolso de entradas</h3>
+            <p>Para solicitar un reembolso de entradas, contáctanos a través de nuestro correo electrónico o número de teléfono. Nuestro equipo de atención al cliente estará encantado de ayudarte con tu solicitud de reembolso.</p>
+        </div>
+    </div>
+
+    <!-- Modal para el problema 4 -->
+    <div id="problema4" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Problema: Necesito ayuda con una compra</h3>
+            <p>Si necesitas ayuda con una compra, por favor contáctanos a través de nuestro correo electrónico o número de teléfono y proporciona detalles sobre tu problema. Nuestro equipo de soporte te ayudará a resolver cualquier problema que puedas tener.</p>
+        </div>
+    </div>
+
+    <script>
+        // Función para abrir y cerrar los modales
+        function toggleModal(modalId) {
+            var modal = document.getElementById(modalId);
+            modal.style.display = modal.style.display === "block" ? "none" : "block";
+        }
+
+        // Obtener todos los elementos de la clase "close" y agregar un evento de clic a cada uno
+        var closeButtons = document.getElementsByClassName("close");
+        for (var i = 0; i < closeButtons.length; i++) {
+            closeButtons[i].addEventListener("click", function() {
+                toggleModal(this.parentElement.id);
+            });
+        }
+
+        // Obtener todos los elementos de la lista y agregar un evento de clic a cada uno
+        var listItems = document.querySelectorAll("ul li a");
+        listItems.forEach(function(item) {
+            item.addEventListener("click", function(event) {
+                var modalId = this.getAttribute("href").substring(1);
+                toggleModal(modalId);
+            });
+        });
+
+        // Agregar un evento de clic al área fuera del modal para cerrarlo
+        window.onclick = function(event) {
+            var modals = document.getElementsByClassName("modal");
+            for (var i = 0; i < modals.length; i++) {
+                if (event.target === modals[i]) {
+                    modals[i].style.display = "none";
+                }
+            }
+        };
+    </script>
+</body>
+</html>
